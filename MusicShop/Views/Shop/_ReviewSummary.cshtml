@@ -1,0 +1,85 @@
+﻿@using System.Globalization;
+
+@model InstrumentModel
+
+<h2 class="mb-3">Product Rating</h2>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h1 class="display-4 mt-3 mb-4">@Math.Round(@Model.AverageRating, 1)</h1>
+                <div class="text-warning mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Model.AverageRating)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+                        else if (i - 0.5m <= Model.AverageRating)
+                        {
+                            <i class="bi bi-star-half"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-star"></i>
+                        }
+                    }
+                </div>
+                <h6 class="text-muted">Based on @Model.ReviewCount reviews</h6>
+            </div>
+            <div class="col-md-8">
+                <div class="rating-bars">
+                    <div class="rating-bar mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>5 stars</span>
+                            <small class="text-muted">@Math.Round(Model.FiveStarRatings, 1)%</small>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.FiveStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>4 stars</span>
+                            <small class="text-muted">@Math.Round(Model.FourStarRatings, 1)%</small>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.FourStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>3 stars</span>
+                            <small class="text-muted">@Math.Round(Model.ThreeStarRatings, 1)%</small>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.ThreeStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>2 stars</span>
+                            <small class="text-muted">@Math.Round(Model.TwoStarRatings, 1)%</small>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.TwoStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span>1 star</span>
+                            <small class="text-muted">@Math.Round(Model.OneStarRatings, 1)%</small>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.OneStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal">Write a Review</button>
+        </div>
+    </div>
+</div>

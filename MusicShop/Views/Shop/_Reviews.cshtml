@@ -1,0 +1,7 @@
+﻿@using MusicShop.Entities;
+@model List<Review>
+
+@foreach (var review in Model)
+{
+    @Html.Partial("_Review", review)
+}

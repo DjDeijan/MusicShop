@@ -1,0 +1,414 @@
+﻿@using System.Globalization;
+
+@model InstrumentModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Left: Image -->
+        <div class="col-md-6 text-center">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow" style="max-height: 400px;" />
+        </div>
+
+        <!-- Right: Info -->
+        <div class="col-md-6">
+            <h2>@Model.Name</h2>
+
+            <div class="mb-2">
+                <span class="fs-4 fw-bold text-primary">$@Model.Price</span>
+            </div>
+
+            <p>@Model.Description</p>
+            <p><strong>Purchased:</strong> @Model.PurchaseCount times</p>
+
+            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#orderModal">
+                Order
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="orderForm" method="post">
+                <input type="hidden" name="instrumentId" value="@Model.Id" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Order: @Model.Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Your Name:</label>
+                        <input type="text" name="customerName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email:</label>
+                        <input type="email" name="email" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Confirm Order</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<div class="container mt-5">
+    <div id="review-summary">
+    <h2 class="mb-3">Product Rating</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <h1 class="display-4 mt-3 mb-4">@Model.AverageRating</h1>
+                    <div class="text-warning mb-3">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Model.AverageRating)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            else if (i - 0.5m <= Model.AverageRating)
+                            {
+                                <i class="bi bi-star-half"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        }
+                    </div>
+                    <h6 class="text-muted">Based on @Model.ReviewCount reviews</h6>
+                </div>
+                <div class="col-md-8">
+                    <div class="rating-bars">
+                        <div class="rating-bar mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>5 stars</span>
+                                <small class="text-muted">@Math.Round(Model.FiveStarRatings, 1)%</small>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.FiveStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="rating-bar mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>4 stars</span>
+                                <small class="text-muted">@Math.Round(Model.FourStarRatings, 1)%</small>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.FourStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="rating-bar mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>3 stars</span>
+                                    <small class="text-muted">@Math.Round(Model.ThreeStarRatings, 1)%</small>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.ThreeStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="rating-bar mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>2 stars</span>
+                                        <small class="text-muted">@Math.Round(Model.TwoStarRatings, 1)%</small>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.TwoStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="rating-bar">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>1 star</span>
+                                            <small class="text-muted">@Math.Round(Model.OneStarRatings, 1)%</small>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @Math.Round(Model.OneStarRatings, 1).ToString(CultureInfo.InvariantCulture)%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ratingModal">Write a Review</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <h3 class="mb-4">Customer Reviews</h3>
+
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        <div id="reviews-container">
+        @foreach (var comment in Model.Reviews)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title mb-1">@comment.UserName</h5>
+                    </div>
+                    <div class="mb-2 text-warning">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= comment.Rating)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        }
+                    </div>
+                    <p class="card-text">@comment.Content</p>
+                </div>
+            </div>
+            }
+        </div>
+        @if (Model.ReviewCount > Model.Reviews.Count)
+        {
+            <div class="text-center mt-3">
+                <a href="#" id="loadMoreBtn" data-skip="5" class="text-primary text-decoration-underline">Load more comments</a>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-muted">No comments yet. Be the first to leave a review!</p>
+    }
+</div>
+
+<!-- Rating Modal -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="ratingForm" method="post">
+                <input type="hidden" name="instrumentId" value="@Model.Id" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ratingModalLabel">Write a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Your Name:</label>
+                        <input type="text" name="customerName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Your Rating</label>
+                        <div class="star-rating">
+                            <i class="bi bi-star rating-star" data-rating="1"></i>
+                            <i class="bi bi-star rating-star" data-rating="2"></i>
+                            <i class="bi bi-star rating-star" data-rating="3"></i>
+                            <i class="bi bi-star rating-star" data-rating="4"></i>
+                            <i class="bi bi-star rating-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="review" class="form-label">Your Review</label>
+                        <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("orderForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+
+        fetch('@Url.Action("Order", "Shop")', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Close modal using Bootstrap's modal API
+                const modalEl = document.getElementById('orderModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                modalInstance.hide();
+
+                // Show confirmation toast
+                showToast(data.message);
+
+                // Optionally reset the form
+                form.reset();
+            })
+            .catch(error => {
+                showToast("An error occurred while placing the order.");
+            });
+    });
+
+    function showToast(message) {
+        const toast = document.createElement("div");
+        toast.textContent = message;
+        toast.style.position = "fixed";
+        toast.style.bottom = "20px";
+        toast.style.left = "50%";
+        toast.style.transform = "translateX(-50%)";
+        toast.style.backgroundColor = "#28a745";
+        toast.style.color = "#fff";
+        toast.style.padding = "12px 20px";
+        toast.style.borderRadius = "5px";
+        toast.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+        toast.style.zIndex = 1055;
+        toast.style.opacity = "1";
+        toast.style.transition = "opacity 0.5s ease-in-out";
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = "0";
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.rating-star');
+        const ratingInput = document.getElementById('rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const rating = this.getAttribute('data-rating');
+                ratingInput.value = rating;
+                resetStars();
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.remove('bi-star');
+                    stars[i].classList.add('bi-star-fill');
+                }
+            });
+        });
+
+        function resetStars() {
+            stars.forEach(star => {
+                star.classList.remove('bi-star-fill');
+                star.classList.add('bi-star');
+            });
+        }
+    });
+
+    document.getElementById("ratingForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+
+        fetch('@Url.Action("AddReview", "Shop")', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Close modal using Bootstrap's modal API
+                const modalEl = document.getElementById('ratingModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                modalInstance.hide();
+
+                const review = {
+                    customerName: formData.get('customerName'),
+                    rating: formData.get('rating'),
+                    content: formData.get('content')
+                };
+
+                InsertReview(review);
+
+                // Show confirmation toast
+                showToast(`${formData.get('customerName')}, your review has been submitted!`);
+
+                fetch('@Url.Action("GetReviewSummary", "Shop", new { instrumentId = Model.Id })')
+                    .then(response => response.text())
+                    .then(html => {
+                        const reviewSummary = document.getElementById("review-summary");
+                        reviewSummary.innerHTML = html;
+                    })
+
+                // Optionally reset the form
+                form.reset();
+            })
+            .catch(error => {
+                showToast("An error occurred while placing the order.");
+            });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener("click", function () {
+                event.preventDefault(); // Prevent link navigation
+
+                const skip = parseInt(this.dataset.skip);
+                const instrumentId = '@Model.Id'; // or use a data attribute
+                const lastReviewId = '@Model.LastReviewId';
+
+                fetch(`@Url.Action("GetReviews", "Shop")?instrumentId=${instrumentId}&skip=${skip}&take=5&lastReviewId=${lastReviewId}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        const container = document.getElementById("reviews-container");
+                        container.insertAdjacentHTML('beforeend', html);
+                        this.dataset.skip = skip + 5;
+
+                        // Optionally hide button if fewer than 5 comments are returned
+                        if (@Model.ReviewCount <= this.dataset.skip) {
+                            this.style.display = "none";
+                        }
+                    });
+            });
+        }
+    });
+
+    function InsertReview(review){
+        const reviewContainer = document.getElementById("reviews-container");
+
+        const card = document.createElement("div");
+        card.className = "card mb-3";
+
+        const cardBody = document.createElement("div");
+        cardBody.className = "card-body";
+
+        const header = document.createElement("div");
+        header.className = "d-flex justify-content-between";
+
+        const title = document.createElement("h5");
+        title.className = "card-title mb-1";
+        title.textContent = review.customerName;
+
+        header.appendChild(title);
+        cardBody.appendChild(header);
+
+        const starsDiv = document.createElement("div");
+        starsDiv.className = "mb-2 text-warning";
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement("i");
+            star.className = i <= review.rating ? "bi bi-star-fill" : "bi bi-star";
+            starsDiv.appendChild(star);
+        }
+        cardBody.appendChild(starsDiv);
+
+        const content = document.createElement("p");
+        content.className = "card-text";
+        content.textContent = review.content;
+
+        cardBody.appendChild(content);
+        card.appendChild(cardBody);
+        reviewContainer.prepend(card); // Or appendChild(card) if you want it at the bottom
+    }
+
+</script>

@@ -1,0 +1,24 @@
+﻿@using MusicShop.Entities;
+@model Review
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title mb-1">@Model.UserName</h5>
+        </div>
+        <div class="mb-2 text-warning">
+            @for (int i = 1; i <= 5; i++)
+            {
+                if (i <= Model.Rating)
+                {
+                    <i class="bi bi-star-fill"></i>
+                }
+                else
+                {
+                    <i class="bi bi-star"></i>
+                }
+            }
+        </div>
+        <p class="card-text">@Model.Content</p>
+    </div>
+</div>

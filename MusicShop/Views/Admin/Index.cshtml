@@ -1,0 +1,29 @@
+﻿@model IEnumerable<InstrumentModel>
+
+<h1>Manage Instruments</h1>
+<a href="@Url.Action("Create")">Add New Instrument</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Purchases</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>$@item.Price</td>
+                <td>@item.PurchaseCount</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id })">Edit</a> |
+                    <a href="@Url.Action("Delete", new { id = item.Id })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
