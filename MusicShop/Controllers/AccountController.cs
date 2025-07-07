@@ -53,7 +53,7 @@ namespace MusicShop.Controllers
         public IActionResult Login()
         {
             if (User.Identity is not null && User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Shop");
 
             var response = new LoginModel();
             return View(response);
@@ -85,9 +85,6 @@ namespace MusicShop.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity),authProperties);
 
-            //if (_userService.HasBankAccount(user.Id))
-            //    return RedirectToAction("Index", "BankAccount");
-
             return RedirectToAction("Index", "Shop");
         }
 
@@ -96,7 +93,7 @@ namespace MusicShop.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
     }
 }

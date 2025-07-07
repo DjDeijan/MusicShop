@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MusicShop.Services;
 using MusicShop.Entities;
+using MusicShop.Models;
+using MusicShop.Services;
+using System.Diagnostics;
 
 namespace MusicShop.Controllers
 {
@@ -68,6 +70,12 @@ namespace MusicShop.Controllers
             var instrumentModel = _service.GetInstrumentModel(instrumentId);
 
             return PartialView("_ReviewSummary", instrumentModel);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

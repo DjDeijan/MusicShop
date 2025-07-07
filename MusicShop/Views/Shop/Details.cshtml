@@ -239,7 +239,6 @@
         })
             .then(response => response.json())
             .then(data => {
-                // Close modal using Bootstrap's modal API
                 const modalEl = document.getElementById('orderModal');
                 const modalInstance = bootstrap.Modal.getInstance(modalEl);
                 modalInstance.hide();
@@ -253,10 +252,8 @@
                     }
                 }
 
-                // Show confirmation toast
                 showToast(data.message);
 
-                // Optionally reset the form
                 form.reset();
             })
             .catch(error => {
@@ -324,7 +321,6 @@
         })
             .then(response => response.json())
             .then(data => {
-                // Close modal using Bootstrap's modal API
                 const modalEl = document.getElementById('ratingModal');
                 const modalInstance = bootstrap.Modal.getInstance(modalEl);
                 modalInstance.hide();
@@ -337,7 +333,6 @@
 
                 InsertReview(review);
 
-                // Show confirmation toast
                 showToast(`${formData.get('customerName')}, your review has been submitted!`);
 
                 fetch('@Url.Action("GetReviewSummary", "Shop", new { instrumentId = Model.Id })')
@@ -347,7 +342,6 @@
                         reviewSummary.innerHTML = html;
                     })
 
-                // Optionally reset the form
                 form.reset();
             })
             .catch(error => {
@@ -360,10 +354,10 @@
 
         if (loadMoreBtn) {
             loadMoreBtn.addEventListener("click", function () {
-                event.preventDefault(); // Prevent link navigation
+                event.preventDefault();
 
                 const skip = parseInt(this.dataset.skip);
-                const instrumentId = '@Model.Id'; // or use a data attribute
+                const instrumentId = '@Model.Id';
                 const lastReviewId = '@Model.LastReviewId';
 
                 fetch(`@Url.Action("GetReviews", "Shop")?instrumentId=${instrumentId}&skip=${skip}&take=5&lastReviewId=${lastReviewId}`)
@@ -373,7 +367,6 @@
                         container.insertAdjacentHTML('beforeend', html);
                         this.dataset.skip = skip + 5;
 
-                        // Optionally hide button if fewer than 5 comments are returned
                         if (@Model.ReviewCount <= this.dataset.skip) {
                             this.style.display = "none";
                         }
@@ -416,7 +409,7 @@
 
         cardBody.appendChild(content);
         card.appendChild(cardBody);
-        reviewContainer.prepend(card); // Or appendChild(card) if you want it at the bottom
+        reviewContainer.prepend(card);
     }
 
 </script>

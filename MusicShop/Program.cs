@@ -33,7 +33,7 @@ app.UseDeveloperExceptionPage();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Shop/Error");
     app.UseHsts();
 }
 
